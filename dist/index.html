@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PHM Family Trees</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/assets/index-DrIUi4E-.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BiY16bdW.css">
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <div class="title-wrap">
+          <div class="badge">PHM</div>
+          <h1>PHM Family Trees</h1>
+          <p>Pick a family to view their tree.</p>
+        </div>
+        <div class="controls">
+          <label class="selector">
+            <span>Family</span>
+            <select id="familySelect"></select>
+          </label>
+          <div class="legend">
+            <span class="dot dot-green"></span> Picking Up
+            <span class="dot dot-gray"></span> Not Picking Up
+          </div>
+        </div>
+      </header>
+
+      <section class="tree-panel">
+        <div class="panel-head">
+          <h2 id="familyTitle"></h2>
+          <div class="stats">
+            <div class="stat-card">
+              <span>Total</span>
+              <strong id="statTotal">0</strong>
+            </div>
+            <div class="stat-card">
+              <span>Picking Up</span>
+              <strong id="statPicking">0</strong>
+            </div>
+            <div class="stat-card">
+              <span>Generations</span>
+              <strong id="statDepth">0</strong>
+            </div>
+          </div>
+        </div>
+        <div class="tree-viewport-wrap">
+          <div class="zoom-controls">
+            <button id="fitViewBtn" type="button">Fit View</button>
+          </div>
+          <div id="treeViewport" class="tree-viewport">
+            <div id="treeStage" class="tree-stage">
+              <div id="treeRoot" class="tree-wrapper"></div>
+            </div>
+          </div>
+          <canvas id="miniMap" class="mini-map" width="220" height="140"></canvas>
+        </div>
+      </section>
+    </main>
+
+    <div id="memberModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal="true"></div>
+      <article class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalName">
+        <button class="modal-close" id="modalCloseBtn" aria-label="Close">x</button>
+        <div class="modal-header">
+          <img id="modalAvatar" src="" alt="" />
+          <div>
+            <h3 id="modalName"></h3>
+            <p id="modalMeta"></p>
+          </div>
+        </div>
+        <div class="modal-body">
+          <p id="modalBio"></p>
+          <div class="chips">
+            <div>
+              <h4>Interests</h4>
+              <p id="modalInterests"></p>
+            </div>
+            <div>
+              <h4>Hobbies</h4>
+              <p id="modalHobbies"></p>
+            </div>
+          </div>
+          <div class="ask-box">
+            <h4>What this pledge should know</h4>
+            <p id="modalPitch"></p>
+          </div>
+        </div>
+      </article>
+    </div>
+
+  </body>
+</html>
