@@ -10,8 +10,8 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/assets/index-DrIUi4E-.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BiY16bdW.css">
+    <script type="module" crossorigin src="/assets/index-BfJ9z3vx.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-pzzxfK-s.css">
   </head>
   <body>
     <main class="page">
@@ -63,6 +63,17 @@
           <canvas id="miniMap" class="mini-map" width="220" height="140"></canvas>
         </div>
       </section>
+
+      <section class="favorites-panel">
+        <div class="favorites-head">
+          <h3>My Favorites Ranking</h3>
+          <button id="clearFavoritesBtn" type="button">Clear All</button>
+        </div>
+        <p class="favorites-help">
+          Add people from profile popups, then rank them with up/down arrows.
+        </p>
+        <ol id="favoritesList" class="favorites-list"></ol>
+      </section>
     </main>
 
     <div id="memberModal" class="modal hidden" aria-hidden="true">
@@ -92,6 +103,9 @@
             <h4>What this pledge should know</h4>
             <p id="modalPitch"></p>
           </div>
+          <button id="favoriteToggleBtn" class="favorite-toggle-btn" type="button">
+            Add to Favorites
+          </button>
         </div>
       </article>
     </div>

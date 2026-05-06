@@ -147,6 +147,97 @@ body {
     0 30px 48px rgba(2, 6, 23, 0.55);
 }
 
+.favorites-panel {
+  margin-top: 1rem;
+  border: 1px solid rgba(139, 156, 255, 0.26);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: rgba(10, 14, 28, 0.9);
+}
+
+.favorites-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.favorites-head h3 {
+  margin: 0;
+  font-family: Sora, Manrope, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 1rem;
+}
+
+.favorites-head button {
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  background: rgba(127, 29, 29, 0.45);
+  color: #fecaca;
+  border-radius: 0.45rem;
+  padding: 0.32rem 0.55rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+
+.favorites-help {
+  margin: 0.4rem 0 0.7rem;
+  color: #94a3b8;
+  font-size: 0.82rem;
+}
+
+.favorites-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.favorite-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.7rem;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 0.6rem;
+  background: rgba(15, 23, 42, 0.65);
+  padding: 0.5rem 0.6rem;
+}
+
+.favorite-main {
+  display: grid;
+}
+
+.favorite-main strong {
+  font-size: 0.86rem;
+}
+
+.favorite-main span {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.favorite-actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.favorite-actions button {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(30, 41, 59, 0.85);
+  color: #e2e8f0;
+  border-radius: 0.4rem;
+  min-width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
 .panel-head {
   display: grid;
   gap: 0.75rem;
@@ -462,6 +553,19 @@ body {
   margin: 0;
   color: #e2e8f0;
   line-height: 1.5;
+}
+
+.favorite-toggle-btn {
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  background: rgba(22, 163, 74, 0.2);
+  color: #bbf7d0;
+  border-radius: 0.55rem;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
 }
 
 .chips {

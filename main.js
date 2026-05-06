@@ -410,11 +410,17 @@ const modalBio = document.querySelector("#modalBio");
 const modalInterests = document.querySelector("#modalInterests");
 const modalHobbies = document.querySelector("#modalHobbies");
 const modalPitch = document.querySelector("#modalPitch");
+const favoriteToggleBtn = document.querySelector("#favoriteToggleBtn");
+const favoritesList = document.querySelector("#favoritesList");
+const clearFavoritesBtn = document.querySelector("#clearFavoritesBtn");
 
 const MAX_DEPTH = 8;
 const MAX_NODES_RENDERED = 140;
 let renderedNodeCount = 0;
 let activeFamilyMembers = [];
+let activeModalMemberId = null;
+const FAVORITES_STORAGE_KEY = "phm-favorites-v1";
+let favorites = [];
 const viewState = {
   scale: 1,
   x: 0,
@@ -428,6 +434,81 @@ const viewState = {
   startX: 0,
   startY: 0,
 };
+
+const memberIndex = new Map();
+families.forEach((family) => {
+  family.members.forEach((member) => {
+    memberIndex.set(member.id, { ...member, familyName: family.name });
+  });
+});
+
+function loadFavorites() {
+  try {
+    const raw = localStorage.getItem(FAVORITES_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    favorites = parsed.filter((id) => memberIndex.has(id));
+  } catch {
+    favorites = [];
+  }
+}
+
+function saveFavorites() {
+  localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favorites));
+}
+
+function isFavorite(memberId) {
+  return favorites.includes(memberId);
+}
+
+function renderFavorites() {
+  favoritesList.innerHTML = "";
+  if (!favorites.length) {
+    const empty = document.createElement("li");
+    empty.className = "favorite-item";
+    empty.innerHTML = '<div class="favorite-main"><strong>No favorites yet</strong><span>Add from profile modal</span></div>';
+    favoritesList.appendChild(empty);
+    return;
+  }
+
+  favorites.forEach((memberId, index) => {
+    const member = memberIndex.get(memberId);
+    if (!member) return;
+    const li = document.createElement("li");
+    li.className = "favorite-item";
+    li.innerHTML = `
+      <div class="favorite-main">
+        <strong>${member.name}</strong>
+        <span>${member.familyName}</span>
+      </div>
+      <div class="favorite-actions">
+        <button type="button" data-fav-action="up" data-member-id="${member.id}">↑</button>
+        <button type="button" data-fav-action="down" data-member-id="${member.id}">↓</button>
+        <button type="button" data-fav-action="remove" data-member-id="${member.id}">x</button>
+      </div>
+    `;
+    favoritesList.appendChild(li);
+  });
+}
+
+function toggleFavorite(memberId) {
+  if (isFavorite(memberId)) {
+    favorites = favorites.filter((id) => id !== memberId);
+  } else {
+    favorites.push(memberId);
+  }
+  saveFavorites();
+  renderFavorites();
+}
+
+function moveFavorite(memberId, direction) {
+  const idx = favorites.indexOf(memberId);
+  if (idx === -1) return;
+  const nextIdx = idx + direction;
+  if (nextIdx < 0 || nextIdx >= favorites.length) return;
+  [favorites[idx], favorites[nextIdx]] = [favorites[nextIdx], favorites[idx]];
+  saveFavorites();
+  renderFavorites();
+}
 
 function applyViewTransform() {
   treeStage.style.transform = `translate(${viewState.x}px, ${viewState.y}px) scale(${viewState.scale})`;
@@ -671,6 +752,8 @@ function openMemberModal(member) {
   modalInterests.textContent = member.interests.join(" | ");
   modalHobbies.textContent = member.hobbies.join(" | ");
   modalPitch.textContent = member.pitch;
+  activeModalMemberId = member.id;
+  favoriteToggleBtn.textContent = isFavorite(member.id) ? "Remove from Favorites" : "Add to Favorites";
 
   modal.classList.remove("hidden");
   modal.setAttribute("aria-hidden", "false");
@@ -679,6 +762,7 @@ function openMemberModal(member) {
 function closeMemberModal() {
   modal.classList.add("hidden");
   modal.setAttribute("aria-hidden", "true");
+  activeModalMemberId = null;
 }
 
 families.forEach((family) => {
@@ -700,5 +784,37 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !modal.classList.contains("hidden")) closeMemberModal();
 });
 
+favoriteToggleBtn.addEventListener("click", () => {
+  if (!activeModalMemberId) return;
+  toggleFavorite(activeModalMemberId);
+  favoriteToggleBtn.textContent = isFavorite(activeModalMemberId)
+    ? "Remove from Favorites"
+    : "Add to Favorites";
+});
+
+favoritesList.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-fav-action]");
+  if (!button) return;
+  const memberId = button.dataset.memberId;
+  const action = button.dataset.favAction;
+  if (!memberId || !action) return;
+
+  if (action === "up") moveFavorite(memberId, -1);
+  if (action === "down") moveFavorite(memberId, 1);
+  if (action === "remove") {
+    favorites = favorites.filter((id) => id !== memberId);
+    saveFavorites();
+    renderFavorites();
+  }
+});
+
+clearFavoritesBtn.addEventListener("click", () => {
+  favorites = [];
+  saveFavorites();
+  renderFavorites();
+});
+
 setupPanZoom();
+loadFavorites();
+renderFavorites();
 renderFamily(families[0].id);
